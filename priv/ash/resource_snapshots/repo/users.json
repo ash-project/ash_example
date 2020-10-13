@@ -1,0 +1,48 @@
+{
+  "attributes": [
+    {
+      "allow_nil?": false,
+      "default": "false",
+      "name": "admin",
+      "primary_key?": false,
+      "references": null,
+      "type": "boolean"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "first_name",
+      "primary_key?": false,
+      "references": null,
+      "type": "string"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "id",
+      "primary_key?": true,
+      "references": null,
+      "type": "binary_id"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "last_name",
+      "primary_key?": false,
+      "references": null,
+      "type": "string"
+    },
+    {
+      "allow_nil?": false,
+      "default": "false",
+      "name": "representative",
+      "primary_key?": false,
+      "references": null,
+      "type": "boolean"
+    }
+  ],
+  "hash": "38463F35314AE694D1B2EEF179E655FE10BE530E5DAFB1C388408FBCCCAA98C9",
+  "identities": [],
+  "repo": "Elixir.Helpdesk.Repo",
+  "table": "users"
+}

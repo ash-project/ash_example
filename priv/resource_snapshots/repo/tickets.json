@@ -1,0 +1,71 @@
+{
+  "attributes": [
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "description",
+      "primary_key?": false,
+      "references": null,
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "id",
+      "primary_key?": true,
+      "references": null,
+      "type": "binary_id"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "reporter_id",
+      "primary_key?": false,
+      "references": {
+        "destination_field": "id",
+        "table": "users"
+      },
+      "type": "binary_id"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "representative_id",
+      "primary_key?": false,
+      "references": {
+        "destination_field": "id",
+        "table": "users"
+      },
+      "type": "binary_id"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "response",
+      "primary_key?": false,
+      "references": null,
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "\"new\"",
+      "name": "status",
+      "primary_key?": false,
+      "references": null,
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "name": "subject",
+      "primary_key?": false,
+      "references": null,
+      "type": "text"
+    }
+  ],
+  "base_filter": null,
+  "hash": "F128576772DCC04C79F983FA2FD971B19BF73A75F86C4BC99294914A991E29F8",
+  "identities": [],
+  "repo": "Elixir.Helpdesk.Repo",
+  "table": "tickets"
+}
