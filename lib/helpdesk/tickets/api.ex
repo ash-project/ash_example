@@ -10,14 +10,24 @@ defmodule Helpdesk.Tickets.Api do
   alias Helpdesk.Tickets.{Customer, Representative, Ticket}
 
   browser do
-    refetch_actor({HelpdeskWeb.FakeUser, :refetch_user, []})
+    refetch_actor({HelpdeskWeb.Plugs.FakeUser, :refetch_user, []})
 
-    pages do
-      page :home, "/", Helpdesk.Tickets.Views.Home do
-        component(:user_banner, {Representative, :me})
-        component(:assigned_tickets_list, {Ticket, :assigned_tickets})
+    components do
+      component :dashboard, Helpdesk.Tickets.Components.Dashboard do
+        resource_component :assigned_tickets, Ticket, :assigned
+        resource_component :me, Representative, :me
       end
     end
+
+    pages do
+      page :home, "/", Helpdesk.Tickets.Pages.Home do
+        api_component(:dashboard, __MODULE__, :dashboard)
+      end
+    end
+  end
+
+  graphql do
+    authorize? true
   end
 
   resources do

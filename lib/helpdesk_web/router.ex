@@ -1,5 +1,7 @@
 defmodule HelpdeskWeb.Router do
   use HelpdeskWeb, :router
+  require AshBrowser
+  require AshJsonApi
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -8,16 +10,34 @@ defmodule HelpdeskWeb.Router do
     plug :put_root_layout, {HelpdeskWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug HelpdeskWeb.Plugs.FakeUser
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug HelpdeskWeb.Plugs.FakeUser
   end
 
-  scope "/", HelpdeskWeb do
-    pipe_through :browser
+  scope "/json_api" do
+    pipe_through(:api)
 
-    live "/", PageLive, :index
+    AshJsonApi.forward("/helpdesk", Helpdesk.Helpdesk.Api)
+  end
+
+  scope "/" do
+    pipe_through(:api)
+
+    forward "/gql", Absinthe.Plug, schema: Helpdesk.Schema
+
+    forward "/playground",
+            Absinthe.Plug.GraphiQL,
+            schema: Helpdesk.Schema,
+            interface: :playground
+  end
+
+  scope "/" do
+    pipe_through :browser
+    AshBrowser.routes(Helpdesk.Tickets.Api)
   end
 
   # Other scopes may use custom stacks.
@@ -40,4 +60,6 @@ defmodule HelpdeskWeb.Router do
       live_dashboard "/dashboard", metrics: HelpdeskWeb.Telemetry
     end
   end
+
+  # AshBrowser.forward("/", Helpdesk.Tickets.Api)
 end

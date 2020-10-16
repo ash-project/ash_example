@@ -7,10 +7,10 @@ defmodule Helpdesk.Accounts.Api do
     ]
 
   graphql do
-    authorize?(true)
+    authorize? true
   end
 
   resources do
-    resource(Helpdesk.Accounts.User)
+    resource Helpdesk.Accounts.User
   end
 end
