@@ -1,5 +1,4 @@
 defmodule Helpdesk.Tickets.Customer do
-  # lib/helpdesk/tickets/resources/user.ex
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer,
     authorizers: [

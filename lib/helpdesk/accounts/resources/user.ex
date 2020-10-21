@@ -1,14 +1,24 @@
 defmodule Helpdesk.Accounts.User do
-  # lib/helpdesk/accounts/resources/user.ex
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer,
     authorizers: [
       AshPolicyAuthorizer.Authorizer
     ],
+    notifiers: [
+      Ash.Notifier.PubSub
+    ],
     extensions: [
       AshJsonApi.Resource,
       AshGraphql.Resource
     ]
+
+  pub_sub do
+    prefix "user"
+
+    module(HelpdeskWeb.Endpoint)
+
+    publish(:update, ["updated", :id])
+  end
 
   graphql do
     type :user

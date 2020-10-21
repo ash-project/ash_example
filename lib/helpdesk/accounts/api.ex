@@ -1,5 +1,4 @@
 defmodule Helpdesk.Accounts.Api do
-  # in lib/helpdesk/accounts/api.ex
   use Ash.Api,
     extensions: [
       AshJsonApi.Api,

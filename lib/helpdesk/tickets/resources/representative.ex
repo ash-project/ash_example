@@ -1,5 +1,4 @@
 defmodule Helpdesk.Tickets.Representative do
-  # lib/helpdesk/tickets/resources/user.ex
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer,
     authorizers: [
@@ -7,19 +6,8 @@ defmodule Helpdesk.Tickets.Representative do
     ],
     extensions: [
       AshJsonApi.Resource,
-      AshBrowser.Resource,
-      AshBrowser.Resource
+      AshGraphql.Resource
     ]
-
-  browser do
-    alias Helpdesk.Tickets.Components.Representative
-
-    components do
-      show :me, Representative.Me do
-        load [:open_ticket_count]
-      end
-    end
-  end
 
   resource do
     base_filter representative: true
@@ -33,6 +21,17 @@ defmodule Helpdesk.Tickets.Representative do
     table "users"
     repo Helpdesk.Repo
     base_filter_sql "representative = true"
+  end
+
+  graphql do
+    type :representative
+
+    fields [:first_name, :last_name, :open_ticket_count, :assigned_tickets]
+
+    queries do
+      get :get_representative, :read
+      list :list_representatives, :read
+    end
   end
 
   json_api do

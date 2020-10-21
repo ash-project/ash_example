@@ -33,12 +33,12 @@ defmodule Helpdesk.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:ash, path: "../ash", override: true},
-      {:ash_postgres, path: "../ash_postgres"},
-      {:ash_json_api, path: "../ash_json_api"},
-      {:ash_policy_authorizer, path: "../ash_policy_authorizer"},
-      {:ash_graphql, path: "../ash_graphql"},
-      {:ash_browser, path: "../ash_browser"},
+      {:ash, "~> 1.20"},
+      {:ash_postgres, "~> 0.24"},
+      {:ash_json_api, "~> 0.21"},
+      {:ash_policy_authorizer, "~> 0.14"},
+      {:ash_graphql, "~> 0.4"},
+      {:ash_phoenix, "~> 0.1.1"},
       {:gettext, "~> 0.18"},
       {:absinthe, "~> 1.5.0-rc.5", override: true},
       {:phoenix, "~> 1.5.6"},

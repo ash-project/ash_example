@@ -1,0 +1,51 @@
+<section class="phx-hero">
+  <h1><%= gettext "Welcome to %{name}, %{first_name}!", name: "Helpdesk", first_name: @me.first_name %></h1>
+  <h2>You have <%= @me.open_ticket_count %> open tickets</h2>
+</section>
+<table class="card-body table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Status</th>
+      <th>Subject</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for ticket <- @tickets.results do %>
+    <tr>
+      <td><%= ticket.id %></td>
+      <td><%= ticket.status %></td>
+      <td><%= ticket.subject %></td>
+      <td class="w-1/12 whitespace-no-wrap">
+        <span class="text-sm mr-1"><%= link "Show", to: "/" %></span>
+        <span class="text-sm mr-1"><%= link "Edit", to: "/" %></span>
+        <span class="text-sm"><%= link "Delete", to: "/", method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<nav class="border-t border-gray-200">
+  <ul class="flex my-2">
+  <%= if can_link_to_page?(@tickets, "prev") do %>
+    <li class="">
+      <a class="px-2 py-2" href="#" phx-click="nav" phx-value-page="<%= :prev %>">Previous</a>
+    </li>
+  <% end %>
+  <%= unless last_page(@tickets) == :unknown do %>
+    <%= for idx <-  1..last_page(@tickets) do %>
+      <li class="">
+        <a class="px-2 py-2 <%= if on_page?(@tickets, idx), do: "pointer-events-none text-gray-600" %>" href="#" phx-click="nav" phx-value-page="<%= idx %>"><%= idx %></a>
+      </li>
+    <% end %>
+  <% end %>
+  <%= if can_link_to_page?(@tickets, "next") do %>
+    <li class="">
+      <a class="px-2 py-2 <%= unless can_link_to_page?(@tickets, "next"), do: "pointer-events-none text-gray-600" %>" href="#" phx-click="nav" phx-value-page="<%= :next %>">Next</a>
+    </li>
+  <% end %>
+  </ul>
+</nav>

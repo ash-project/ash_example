@@ -1,5 +1,4 @@
 defmodule Helpdesk.Tickets.Ticket do
-  # lib/helpdesk/tickets/resources/ticket.ex
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer,
     authorizers: [
@@ -10,15 +9,19 @@ defmodule Helpdesk.Tickets.Ticket do
     ],
     extensions: [
       AshGraphql.Resource,
-      AshJsonApi.Resource,
-      AshBrowser.Resource
+      AshJsonApi.Resource
     ]
 
   pub_sub do
+    # A prefix for all messages
     prefix "ticket"
+    # The module to call `broadcast/3` on
     module HelpdeskWeb.Endpoint
 
+    # When a ticket is assigned, publish ticket:assigned_to:<representative_id>
     publish :assign, ["assigned_to", :representative_id]
+    publish_all(:update, ["updated", :representative_id])
+    publish_all(:update, ["updated", :reporter_id])
   end
 
   graphql do
@@ -32,19 +35,9 @@ defmodule Helpdesk.Tickets.Ticket do
     end
 
     mutations do
-      create :create_ticket, :create
+      create :open_ticket, :open
       update :update_ticket, :update
       destroy :destroy_ticket, :destroy
-    end
-  end
-
-  browser do
-    alias Helpdesk.Tickets.Components.Ticket
-
-    components do
-      index :assigned, Ticket.Assigned do
-        live(page: :keep)
-      end
     end
   end
 
@@ -85,8 +78,16 @@ defmodule Helpdesk.Tickets.Ticket do
   end
 
   actions do
-    read :reported, filter: [reporter: actor(:id)]
-    read :assigned, filter: [representative: actor(:id)]
+    read :reported do
+      filter reporter: actor(:id)
+
+      pagination offset?: true, countable: true, required?: false
+    end
+
+    read :assigned do
+      filter representative: actor(:id)
+      pagination offset?: true, countable: true, required?: false
+    end
 
     read :read do
       primary? true
