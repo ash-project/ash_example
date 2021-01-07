@@ -19,7 +19,8 @@ config :helpdesk, HelpdeskWeb.Endpoint,
   secret_key_base: "4f01KRWScZ+SO5WbLzlMqO21b1btGFDCHFVjYK42qZ6z6p4IjjcyeIG9FdnwU15p",
   render_errors: [view: HelpdeskWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Helpdesk.PubSub,
-  live_view: [signing_salt: "0sO236Cb"]
+  live_view: [signing_salt: "0sO236Cb"],
+  reloadable_apps: [:helpdesk, :ash_admin]
 
 # Configures Elixir's Logger
 config :logger, :console,

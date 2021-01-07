@@ -26,8 +26,6 @@ defmodule Helpdesk.Tickets.Representative do
   graphql do
     type :representative
 
-    fields [:first_name, :last_name, :open_ticket_count, :assigned_tickets]
-
     queries do
       get :get_representative, :read
       list :list_representatives, :read
@@ -44,8 +42,6 @@ defmodule Helpdesk.Tickets.Representative do
       get :read
       index :read
     end
-
-    fields [:first_name, :last_name, :open_ticket_count]
   end
 
   policies do
@@ -85,7 +81,7 @@ defmodule Helpdesk.Tickets.Representative do
   end
 
   calculations do
-    calculate :full_name, concat([:first_name, :last_name], " ")
+    calculate :full_name, :string, concat([:first_name, :last_name], " ")
   end
 
   relationships do

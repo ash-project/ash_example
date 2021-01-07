@@ -1,8 +1,7 @@
 defmodule Helpdesk.Schema do
   use Absinthe.Schema
 
-  use AshGraphql, api: Helpdesk.Tickets.Api
-  use AshGraphql, api: Helpdesk.Accounts.Api
+  use AshGraphql, apis: [Helpdesk.Tickets.Api, Helpdesk.Accounts.Api]
 
   query do
   end

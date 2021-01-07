@@ -9,8 +9,13 @@ defmodule Helpdesk.Accounts.User do
     ],
     extensions: [
       AshJsonApi.Resource,
-      AshGraphql.Resource
+      AshGraphql.Resource,
+      AshAdmin.Resource
     ]
+
+  admin do
+    actor?(true)
+  end
 
   pub_sub do
     prefix "user"
@@ -22,8 +27,6 @@ defmodule Helpdesk.Accounts.User do
 
   graphql do
     type :user
-
-    fields [:first_name, :last_name, :representative, :admin]
 
     queries do
       get :get_user, :me
@@ -48,8 +51,6 @@ defmodule Helpdesk.Accounts.User do
       patch :update
       delete :destroy
     end
-
-    fields [:first_name, :last_name, :representative, :admin]
   end
 
   policies do

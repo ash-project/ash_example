@@ -2,7 +2,7 @@ defmodule Helpdesk.Tickets.Ticket do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer,
     authorizers: [
-      AshPolicyAuthorizer.Authorizer
+      # AshPolicyAuthorizer.Authorizer
     ],
     notifiers: [
       Ash.Notifier.PubSub
@@ -27,8 +27,6 @@ defmodule Helpdesk.Tickets.Ticket do
   graphql do
     type :ticket
 
-    fields [:subject, :description, :response, :status, :reporter]
-
     queries do
       get :get_ticket, :read
       list :list_tickets, :read
@@ -49,33 +47,33 @@ defmodule Helpdesk.Tickets.Ticket do
 
       get :read
       index :reported, route: "/reported"
+
       index :read
+
       post :open, route: "/open"
       patch :update
       delete :destroy
     end
-
-    fields [:subject, :description, :response, :status, :reporter]
 
     includes [
       :reporter
     ]
   end
 
-  policies do
-    bypass always() do
-      authorize_if actor_attribute_equals(:admin, true)
-    end
+  # policies do
+  #   bypass always() do
+  #     authorize_if actor_attribute_equals(:admin, true)
+  #   end
 
-    policy action_type(:read) do
-      authorize_if actor_attribute_equals(:representative, true)
-      authorize_if relates_to_actor_via(:reporter)
-    end
+  #   policy action_type(:read) do
+  #     authorize_if actor_attribute_equals(:representative, true)
+  #     authorize_if relates_to_actor_via(:reporter)
+  #   end
 
-    policy changing_relationship(:reporter) do
-      authorize_if relating_to_actor(:reporter)
-    end
-  end
+  #   policy changing_relationship(:reporter) do
+  #     authorize_if relating_to_actor(:reporter)
+  #   end
+  # end
 
   actions do
     read :reported do
@@ -91,6 +89,7 @@ defmodule Helpdesk.Tickets.Ticket do
 
     read :read do
       primary? true
+      pagination offset?: true, required?: false
     end
 
     create :open do
@@ -111,10 +110,6 @@ defmodule Helpdesk.Tickets.Ticket do
     repo Helpdesk.Repo
   end
 
-  validations do
-    validate one_of(:status, ["new", "investigating", "closed"])
-  end
-
   attributes do
     attribute :id, :uuid do
       primary_key? true
@@ -130,9 +125,10 @@ defmodule Helpdesk.Tickets.Ticket do
 
     attribute :response, :string
 
-    attribute :status, :string do
+    attribute :status, :atom do
       allow_nil? false
       default "new"
+      constraints one_of: [:new, :investigating, :closed]
     end
   end
 

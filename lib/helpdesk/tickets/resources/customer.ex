@@ -12,6 +12,10 @@ defmodule Helpdesk.Tickets.Customer do
     base_filter representative: false
   end
 
+  multitenancy do
+    strategy :context
+  end
+
   json_api do
     type "customer"
 
@@ -21,8 +25,6 @@ defmodule Helpdesk.Tickets.Customer do
       get :read
       index :read
     end
-
-    fields [:first_name, :last_name]
   end
 
   postgres do

@@ -3,7 +3,7 @@ defmodule HelpdeskWeb.HomeLive do
   use Phoenix.HTML
 
   alias Helpdesk.Tickets
-  import Ash.Notifier.LiveView
+  import AshPhoenix.LiveView
 
   @impl true
   def mount(params, session, socket) do
