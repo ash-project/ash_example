@@ -111,10 +111,7 @@ defmodule Helpdesk.Tickets.Ticket do
   end
 
   attributes do
-    attribute :id, :uuid do
-      primary_key? true
-      default &Ecto.UUID.generate/0
-    end
+    uuid_primary_key :id
 
     attribute :subject, :string do
       allow_nil? false
@@ -130,6 +127,9 @@ defmodule Helpdesk.Tickets.Ticket do
       default "new"
       constraints one_of: [:new, :investigating, :closed]
     end
+
+    create_timestamp :created_at
+    update_timestamp :updated_at
   end
 
   relationships do

@@ -1,0 +1,64 @@
+{
+  "attributes": [
+    {
+      "allow_nil?": false,
+      "default": "false",
+      "generated?": false,
+      "name": "admin",
+      "primary_key?": false,
+      "references": null,
+      "type": "boolean"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "first_name",
+      "primary_key?": false,
+      "references": null,
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "id",
+      "primary_key?": true,
+      "references": null,
+      "type": "binary_id"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "last_name",
+      "primary_key?": false,
+      "references": null,
+      "type": "text"
+    },
+    {
+      "allow_nil?": true,
+      "default": "nil",
+      "name": "representative",
+      "primary_key?": false,
+      "references": null,
+      "type": "boolean"
+    }
+  ],
+  "base_filter": null,
+  "hash": "AD92F14B97071513B9427D98FA570D7FBADFD27E352763E7A3F1A8BD4ED252AA",
+  "identities": [
+    {
+      "base_filter": "representative = true",
+      "keys": [
+        "first_name",
+        "last_name"
+      ],
+      "name": "representative_name"
+    }
+  ],
+  "multitenancy": {
+    "attribute": null,
+    "global": null,
+    "strategy": null
+  },
+  "repo": "Elixir.Helpdesk.Repo",
+  "table": "users"
+}

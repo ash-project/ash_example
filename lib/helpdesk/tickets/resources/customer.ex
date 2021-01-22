@@ -48,10 +48,7 @@ defmodule Helpdesk.Tickets.Customer do
   end
 
   attributes do
-    attribute :id, :uuid do
-      primary_key? true
-      default &Ecto.UUID.generate/0
-    end
+    uuid_primary_key :id
 
     attribute :first_name, :string
     attribute :last_name, :string

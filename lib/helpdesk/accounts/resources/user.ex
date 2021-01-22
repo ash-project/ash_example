@@ -9,13 +9,8 @@ defmodule Helpdesk.Accounts.User do
     ],
     extensions: [
       AshJsonApi.Resource,
-      AshGraphql.Resource,
-      AshAdmin.Resource
+      AshGraphql.Resource
     ]
-
-  admin do
-    actor?(true)
-  end
 
   pub_sub do
     prefix "user"
@@ -81,10 +76,7 @@ defmodule Helpdesk.Accounts.User do
   end
 
   attributes do
-    attribute :id, :uuid do
-      primary_key? true
-      default &Ecto.UUID.generate/0
-    end
+    uuid_primary_key :id
 
     attribute :first_name, :string do
       constraints min_length: 1
@@ -100,6 +92,7 @@ defmodule Helpdesk.Accounts.User do
     end
 
     attribute :admin, :boolean do
+      description "Whether or not the user is an administrator"
       allow_nil? false
       default false
     end

@@ -12,10 +12,6 @@ defmodule HelpdeskWeb.Router do
     plug HelpdeskWeb.Plugs.FakeUser
   end
 
-  pipeline :ash_admin do
-    plug AshAdmin.SessionPlug
-  end
-
   pipeline :playground do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -24,13 +20,14 @@ defmodule HelpdeskWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
     plug HelpdeskWeb.Plugs.FakeUser
   end
 
   scope "/json_api" do
     pipe_through(:api)
 
-    AshJsonApi.forward("/helpdesk", Helpdesk.Helpdesk.Api)
+    AshJsonApi.forward("/helpdesk", Helpdesk.Tickets.Api)
   end
 
   scope "/" do
@@ -46,13 +43,6 @@ defmodule HelpdeskWeb.Router do
             Absinthe.Plug.GraphiQL,
             schema: Helpdesk.Schema,
             interface: :playground
-  end
-
-  scope "/" do
-    pipe_through [:browser, :ash_admin]
-    import AshAdmin.Router
-
-    ash_admin("/admin", apis: [Helpdesk.Accounts.Api, Helpdesk.Tickets.Api])
   end
 
   scope "/", HelpdeskWeb do
