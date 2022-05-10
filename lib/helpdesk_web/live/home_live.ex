@@ -13,37 +13,49 @@ defmodule HelpdeskWeb.HomeLive do
       end)
 
     socket =
-      socket
-      |> keep_live(
-        :me,
-        fn socket ->
-          Tickets.Representative
-          |> Ash.Query.load(:open_ticket_count)
-          |> Tickets.Api.read_one!(action: :me, actor: socket.assigns.actor)
-        end,
-        refetch_interval: :timer.minutes(5),
-        subscribe: [
-          "ticket:assigned_to:#{socket.assigns.actor.id}"
-        ]
-      )
-      |> keep_live(
-        :tickets,
-        fn socket, page_opts ->
-          Tickets.Ticket
-          |> Tickets.Api.read!(
-            action: :assigned,
-            actor: socket.assigns.actor,
-            page: page_opts || page_from_params(params["page"], 5, true)
+      case socket.assigns.actor do
+        nil ->
+          socket
+          |> keep_live(
+            :me,
+            fn socket ->
+              nil
+            end
           )
-        end,
-        api: Tickets.Api,
-        results: :keep,
-        refetch_interval: :timer.minutes(1),
-        subscribe: [
-          "user:updated:#{socket.assigns.actor.id}",
-          "ticket:updated:#{socket.assigns.actor.id}"
-        ]
-      )
+
+        actor ->
+          socket
+          |> keep_live(
+            :me,
+            fn socket ->
+              Tickets.Representative
+              |> Ash.Query.load(:open_ticket_count)
+              |> Tickets.Api.read_one!(action: :me, actor: actor)
+            end,
+            refetch_interval: :timer.minutes(5),
+            subscribe: [
+              "ticket:assigned_to:#{actor.id}"
+            ]
+          )
+          |> keep_live(
+            :tickets,
+            fn socket, page_opts ->
+              Tickets.Ticket
+              |> Tickets.Api.read!(
+                action: :assigned,
+                actor: actor,
+                page: page_opts || page_from_params(params["page"], 5, true)
+              )
+            end,
+            api: Tickets.Api,
+            results: :keep,
+            refetch_interval: :timer.minutes(1),
+            subscribe: [
+              "user:updated:#{actor.id}",
+              "ticket:updated:#{actor.id}"
+            ]
+          )
+      end
 
     {:ok, socket}
   end
