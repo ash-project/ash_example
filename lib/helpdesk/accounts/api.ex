@@ -10,6 +10,6 @@ defmodule Helpdesk.Accounts.Api do
   end
 
   resources do
-    resource Helpdesk.Accounts.User
+    registry Helpdesk.Accounts.Registry
   end
 end

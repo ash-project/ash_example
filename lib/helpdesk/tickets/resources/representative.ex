@@ -11,10 +11,10 @@ defmodule Helpdesk.Tickets.Representative do
 
   resource do
     base_filter representative: true
+  end
 
-    identities do
-      identity :representative_name, [:first_name, :last_name]
-    end
+  identities do
+    identity :representative_name, [:first_name, :last_name]
   end
 
   postgres do

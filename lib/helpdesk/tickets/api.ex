@@ -5,15 +5,11 @@ defmodule Helpdesk.Tickets.Api do
       AshGraphql.Api
     ]
 
-  alias Helpdesk.Tickets.{Customer, Representative, Ticket}
-
   graphql do
     authorize? true
   end
 
   resources do
-    resource(Customer)
-    resource(Representative)
-    resource(Ticket)
+    registry Helpdesk.Tickets.Registry
   end
 end
