@@ -20,7 +20,7 @@ defmodule Helpdesk.MixProject do
   def application do
     [
       mod: {Helpdesk.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -54,7 +54,8 @@ defmodule Helpdesk.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.3"},
       {:plug_cowboy, "~> 2.5"},
-      {:absinthe_plug, "~> 1.5"}
+      {:absinthe_plug, "~> 1.5"},
+      {:ecto_psql_extras, "~> 0.6"},
     ]
   end
 
