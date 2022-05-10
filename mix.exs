@@ -5,7 +5,7 @@ defmodule Helpdesk.MixProject do
     [
       app: :helpdesk,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -33,29 +33,28 @@ defmodule Helpdesk.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:ash, "~> 1.30"},
-      {:ash_postgres, "~> 0.31.1"},
-      # {:ash_json_api, "~> 0.27.0"},
-      {:ash_json_api, path: "../ash_json_api"},
-      {:ash_policy_authorizer, "~> 0.14.2"},
-      {:ash_graphql, "~> 0.12.0"},
-      {:ash_phoenix, "~> 0.2.0"},
+      {:ash, "~> 1.51"},
+      {:ash_postgres, "~> 0.41"},
+      {:ash_json_api, "~> 0.29"},
+      {:ash_policy_authorizer, "~> 0.16"},
+      {:ash_graphql, "~> 0.17"},
+      {:ash_phoenix, "~> 0.7"},
       {:gettext, "~> 0.18"},
-      {:absinthe, "~> 1.5.0-rc.5", override: true},
-      {:phoenix, "~> 1.5.6"},
-      {:phoenix_ecto, "~> 4.1"},
-      {:ecto, "~> 3.5.0-rc.0", override: true},
+      {:absinthe, "~> 1.7"},
+      {:phoenix, "~> 1.6"},
+      {:phoenix_ecto, "~> 4.4"},
+      {:ecto, "~> 3.8"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_live_view, "~> 0.15"},
-      {:floki, ">= 0.27.0", only: :test},
-      {:phoenix_html, "~> 2.11"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.4"},
-      {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"},
-      {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"},
-      {:absinthe_plug, "~> 1.4"}
+      {:phoenix_live_view, "~> 0.17"},
+      {:floki, ">= 0.32.0", only: :test},
+      {:phoenix_html, "~> 3.2"},
+      {:phoenix_live_reload, "~> 1.3", only: :dev},
+      {:phoenix_live_dashboard, "~> 0.6"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 1.0"},
+      {:jason, "~> 1.3"},
+      {:plug_cowboy, "~> 2.5"},
+      {:absinthe_plug, "~> 1.5"}
     ]
   end
 

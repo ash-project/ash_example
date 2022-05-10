@@ -27,7 +27,7 @@ defmodule HelpdeskWeb.Router do
   scope "/json_api" do
     pipe_through(:api)
 
-    AshJsonApi.forward("/helpdesk", Helpdesk.Tickets.Api)
+    forward "/helpdesk", HelpdeskWeb.Plugs.TicketsApi
   end
 
   scope "/" do
